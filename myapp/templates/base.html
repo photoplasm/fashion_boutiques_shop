@@ -1,0 +1,167 @@
+{% load compress %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Boutiques Shop</title>
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Asana+New:wght@400;500&family=Charm:wght@400;500&family=Mitr:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
+    <style>
+        /* Custom styles */
+        .navbar-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4A90E2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .navbar-title:hover {
+            transform: scale(1.1);
+            color: #F39C12;
+        }
+
+        .navbar-icon {
+            margin-right: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .navbar-icon:hover {
+            transform: rotate(20deg);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <a class="navbar-title" href="/">
+                    <i class="fas fa-tshirt navbar-icon"></i> Fashion Boutique
+                </a>
+                <button class="lg:hidden ml-4 p-2 text-gray-600 hover:text-gray-800" id="navbar-toggle"
+                    aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <form method="GET" action="{% url 'products' %}" class="mb-4">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search products..." class="border border-gray-300 rounded-lg p-2">
+                <button type="submit" class="bg-blue-500 text-white rounded-lg p-2">Search</button>
+            </form>
+            
+            <div class="hidden lg:flex space-x-6">
+                {% if user.is_authenticated %}
+                <a class="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-full py-2 px-4 hover:from-blue-600 hover:to-teal-600 transition-colors shadow-lg"
+                    href="{% url 'products' %}">
+                    <i class="fas fa-box"></i>
+                    <span>Products</span>
+                </a>
+    
+                <a class="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full py-2 px-4 hover:from-green-600 hover:to-blue-600 transition-colors shadow-lg"
+                    href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>ตะกร้าสั่งซื้อ</span>
+                </a>
+    
+                <a class="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg"
+                    href="{% url 'wishlist_detail' %}">
+                    <i class="fas fa-heart"></i>
+                    <span>รายการโปรด</span>
+                </a>
+    
+                <!-- Add Edit and Delete Product Options for Admins -->
+                {% if user.is_superuser %}
+                <a class="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg"
+                    href="{% url 'product_list' %}">
+                    <i class="fas fa-edit"></i>
+                    <span>Manage Products</span>
+                </a>
+                <a class="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full py-2 px-4 hover:from-orange-600 hover:to-red-600 transition-colors shadow-lg"
+                    href="{% url 'product_create' %}">
+                    <i class="fas fa-plus"></i>
+                    <span>Add Product</span>
+                </a>
+                {% endif %}
+    
+                <a class="bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg"
+                    href="/logout/">Logout</a>
+                {% else %}
+                <a class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-full py-2 px-4 hover:from-blue-500 hover:to-blue-700 transition-colors shadow-lg"
+                    href="/login/">Log in</a>
+                <a class="bg-gradient-to-r from-teal-400 to-teal-600 text-white rounded-full py-2 px-4 hover:from-teal-500 hover:to-teal-700 transition-colors shadow-lg"
+                    href="/signup/">Sign up</a>
+                {% endif %}
+            </div>
+    
+            <!-- Mobile Menu -->
+            <div class="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md" id="navbar-menu" style="display: none;">
+                <div class="px-4 py-2">
+                    {% if user.is_authenticated %}
+                    <a class="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-full py-2 px-4 hover:from-blue-600 hover:to-teal-600 transition-colors shadow-lg mb-4"
+                        href="{% url 'products' %}">
+                        <i class="fas fa-box"></i>
+                        <span>Products</span>
+                    </a>
+                    <a class="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full py-2 px-4 hover:from-green-600 hover:to-blue-600 transition-colors shadow-lg mb-4"
+                        href="{% url 'cart' %}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>ตะกร้าสั่งซื้อ</span>
+                    </a>
+    
+                    <a class="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg mb-4"
+                        href="{% url 'wishlist_detail' %}">
+                        <i class="fas fa-heart"></i>
+                        <span>รายการโปรด</span>
+                    </a>
+    
+                    {% if user.is_superuser %}
+                    <a class="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg mb-4"
+                        href="{% url 'product_list' %}">
+                        <i class="fas fa-edit"></i>
+                        <span>Manage Products</span>
+                    </a>
+                    <a class="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full py-2 px-4 hover:from-orange-600 hover:to-red-600 transition-colors shadow-lg mb-4"
+                        href="{% url 'product_create' %}">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Product</span>
+                    </a>
+                    {% endif %}
+                    
+                    <a class="bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-full py-2 px-4 hover:from-red-600 hover:to-yellow-600 transition-colors shadow-lg"
+                        href="/logout/">Logout</a>
+                    {% else %}
+                    <a class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-full py-2 px-4 hover:from-blue-500 hover:to-blue-700 transition-colors shadow-lg mb-4"
+                        href="/login/">Log in</a>
+                    <a class="bg-gradient-to-r from-teal-400 to-teal-600 text-white rounded-full py-2 px-4 hover:from-teal-500 hover:to-teal-700 transition-colors shadow-lg"
+                        href="/signup/">Sign up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+   {%block content%}
+   {%endblock%}
+    <!-- FontAwesome CDN -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('navbar-toggle').addEventListener('click', function () {
+            var menu = document.getElementById('navbar-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+</body>
+
+</html>

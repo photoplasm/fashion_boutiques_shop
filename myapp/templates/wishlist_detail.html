@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Products | Clothing Store
+{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">รายการโปรดของคุณ</h1>
+<ul class="space-y-4">
+    {% for product in wishlist.products.all %}
+        <li class="border border-gray-300 rounded-lg p-4 flex items-center">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-16 h-16 object-cover rounded-lg mr-4">
+            <div class="flex-1">
+                <h2 class="text-lg font-semibold">{{ product.name }}</h2>
+                <p class="text-gray-600">ราคา {{ product.price }} บาท</p>
+            </div>
+            <a href="{% url 'product_detail' product.id %}" class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
+                ดูรายละเอียด
+            </a>
+            <a href="{% url 'remove_from_wishlist' product.id %}" class="text-red-500 hover:text-red-600 ml-4">
+                ลบออกจากรายการโปรด
+            </a>
+        </li>
+    {% empty %}
+        <li class="text-gray-500 text-center">ไม่มีสินค้าในรายการโปรด</li>
+    {% endfor %}
+</ul>
+{% endblock %}

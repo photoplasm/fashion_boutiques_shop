@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-semibold mb-4">Create Product</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full shadow-md hover:from-blue-600 hover:to-teal-600 transition-transform transform hover:scale-110">
+            Create Product
+        </button>
+    </form>
+</div>
+<script src="{% static 'js/scripts.js' %}"></script>
+{% endblock %}

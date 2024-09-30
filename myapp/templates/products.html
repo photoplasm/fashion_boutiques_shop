@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Products | Clothing Store
+{% endblock %}
+
+{% block content %}
+<div class="container is-max-desktop py-6">
+    <h1 class="title is-2 has-text-centered has-text-dark">Our Products</h1>
+    
+    <div class="columns is-multiline is-variable is-8">
+        {% for product in page_obj %}
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image_url }}" alt="{{ product.name }} Image">
+                        </a>
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <p class="title is-4">{{ product.name }}</p>
+                                <p class="subtitle is-6">${{ product.price }}</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p>Material: {{ product.material }}</p>
+                        <p>Dimensions: {{ product.dimensions }}</p>
+                        <p>Color: {{ product.color }}</p>
+                        <p class="mt-2">{{ product.description }}</p>
+                    </div>
+                    <div class="field mt-4">
+                        <a href="{% url 'add_to_cart' product.id %}" class="button is-link is-fullwidth mb-2">Add to Cart</a>
+                        <a href="{% url 'add_to_wishlist' product.id %}" class="button is-light is-fullwidth">Add to Wishlist</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="has-text-centered has-text-grey">No products available at the moment.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination is-centered mt-6">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">Previous</a>
+        {% else %}
+        <span class="pagination-previous" disabled>Previous</span>
+        {% endif %}
+
+        <ul class="pagination-list">
+            {% for num in page_obj.paginator.page_range %}
+            <li>
+                <a href="?page={{ num }}" class="pagination-link {% if page_obj.number == num %}is-current{% endif %}">
+                    {{ num }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-next">Next</a>
+        {% else %}
+        <span class="pagination-next" disabled>Next</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

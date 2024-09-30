@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Edit Product</title>
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-4xl font-bold text-center mb-6">Edit Product</h1>
+
+<form method="post" action="{% url 'edit_product' product.id %}">
+    {% csrf_token %}
+    
+    {{ form.non_field_errors }}
+    
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">ชื่อสินค้า</label>
+        {{ form.name.errors }}
+        {{ form.name }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">ราคา</label>
+        {{ form.price.errors }}
+        {{ form.price }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">คำอธิบาย</label>
+        {{ form.description.errors }}
+        {{ form.description }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">วัสดุ</label>
+        {{ form.material.errors }}
+        {{ form.material }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">ขนาด</label>
+        {{ form.dimensions.errors }}
+        {{ form.dimensions }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">สี</label>
+        {{ form.color.errors }}
+        {{ form.color }}
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">รูปภาพสินค้า (URL)</label>
+        {{ form.image_url.errors }}
+        {{ form.image_url }}
+    </div>
+
+    <div class="flex items-center justify-end">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600">
+            อัพเดต
+        </button>
+    </div>
+</form>
+
+{% endblock %}

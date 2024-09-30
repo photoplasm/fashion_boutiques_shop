@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Login | Django
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-gray-900"> <!-- Dark background -->
+    <div class="max-w-4xl w-full bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl flex"> <!-- Dark card -->
+        <div class="w-1/2 p-4"> <!-- Image section -->
+            <img src="{% static 'image/iu.jpg' %}" alt="Login Image" class="object-cover w-full h-auto rounded-lg opacity-90"> <!-- Slightly transparent -->
+        </div>
+        <div class="w-1/2 p-4 flex flex-col justify-center"> <!-- Form section -->
+            <h1 class="text-4xl font-bold text-center mb-6 text-white">Login</h1>
+
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <div class="bg-red-600 text-white p-4 rounded-lg mb-2">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'loginForm' %}" class="space-y-4"> <!-- Reduced spacing -->
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-medium mb-1">Username</label>
+                    <input class="w-full border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 p-3 transition-shadow hover:shadow focus:shadow-md" type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-medium mb-1">Password</label>
+                    <input class="w-full border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 p-3 transition-shadow hover:shadow focus:shadow-md" type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <div class="flex justify-between items-center mt-4"> <!-- Reduced margin -->
+                    <button type="submit" class="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-full shadow-lg hover:from-blue-500 hover:to-blue-400 transition-transform transform hover:scale-105">Login</button>
+                    <a href="{% url 'signup' %}" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-full shadow-md transition-colors">Sing Up</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'password_reset' %}" class="text-blue-400 hover:underline">Forgot your password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
