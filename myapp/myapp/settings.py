@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -153,5 +154,5 @@ EMAIL_HOST_USER = 'fifamunk2004@gmail.com'  # ใช้ Gmail ของคุณ
 EMAIL_HOST_PASSWORD = 'xkip viuj qaac mqxf'  # ใช้รหัสผ่าน Gmail ของคุณ
 DEFAULT_FROM_EMAIL = 'fifamunk2004@gmail.com'
 
-ALLOWED_HOSTS = ['https://fashion-boutiques-shop.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.onrender.com']
 
